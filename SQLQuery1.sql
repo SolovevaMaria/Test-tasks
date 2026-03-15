@@ -1,17 +1,12 @@
--- Создание базы данных
 CREATE DATABASE ProductionOrdersDB;
 
 USE ProductionOrdersDB;
 
-
--- Таблица марок стали (справочник)
 CREATE TABLE SteelGrades (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     Name NVARCHAR(100) NOT NULL UNIQUE
 );
 
-
--- Заполнение справочника марок стали
 INSERT INTO SteelGrades (Name) VALUES
     ('Ст3сп'),
     ('09Г2С'),
@@ -19,8 +14,6 @@ INSERT INTO SteelGrades (Name) VALUES
     ('40Х'),
     ('20');
 
-
--- Таблица заказов
 CREATE TABLE Orders (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     OrderNumber NVARCHAR(50) NOT NULL UNIQUE,
@@ -32,8 +25,6 @@ CREATE TABLE Orders (
     CONSTRAINT CHK_Order_Status CHECK (Status IN ('новый', 'в работе', 'выполнен'))
 );
 
-
--- Таблица позиций заказа
 CREATE TABLE OrderItems (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     OrderId INT NOT NULL,
@@ -50,8 +41,6 @@ CREATE TABLE OrderItems (
     CONSTRAINT CHK_Item_Status CHECK (Status IN ('новая', 'в работе', 'выполнена'))
 );
 
-
--- Создание индексов для оптимизации поиска
 CREATE INDEX IX_Orders_Workshop ON Orders(Workshop);
 CREATE INDEX IX_Orders_Status ON Orders(Status);
 CREATE INDEX IX_OrderItems_SteelGrade ON OrderItems(SteelGradeId);
